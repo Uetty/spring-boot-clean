@@ -1,0 +1,12 @@
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeHandlers>
+        <!-- 枚举变量指定处理器 -->
+        <typeHandler handler="com.uetty.sample.springboot.enums.CodeableEnumTypeHandler"
+                     javaType="com.uetty.sample.springboot.enums.CodeableEnum"/>
+
+    </typeHandlers>
+</configuration>

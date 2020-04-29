@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uetty.sample.springboot.dao.VerificationCodeDao">
+    <resultMap id="BaseResultMap" type="com.uetty.sample.springboot.entity.VerificationCode">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="userId" jdbcType="VARCHAR" property="userId"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="expireTime" jdbcType="TIMESTAMP" property="expireTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`, `userId`, `value`, `type`, `createTime`, `expireTime`
+    </sql>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM `t_verification_code`
+		WHERE `id` = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.uetty.sample.springboot.entity.VerificationCode" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `t_verification_code`
+        (`userId`, `value`, `type`, `createTime`, 
+        `expireTime`)
+        VALUES (#{userId}, #{value}, #{type}, #{createTime}, 
+        #{expireTime})
+    </insert>
+
+    <update id="update" parameterType="com.uetty.sample.springboot.entity.VerificationCode">
+        UPDATE `t_verification_code`
+        SET
+        `userId` = #{userId}, 
+        `value` = #{value}, 
+        `type` = #{type}, 
+        `createTime` = #{createTime}, 
+        `expireTime` = #{expireTime}
+        WHERE `id` = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM `t_verification_code`
+        WHERE `id` = #{id}
+    </delete>
+
+</mapper>

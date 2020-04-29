@@ -1,6 +1,8 @@
 package com.uetty.sample.springboot.controller;
 
+import com.github.pagehelper.Page;
 import com.uetty.sample.springboot.constant.BaseResponse;
+import com.uetty.sample.springboot.constant.PagedResponseData;
 import com.uetty.sample.springboot.constant.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -70,4 +72,10 @@ public class BaseController {
         return baseDataResponse;
     }
 
+    /**
+     * 分页数据封装为能够作为返回值出参的格式
+     */
+    protected <T> PagedResponseData<T> getPagedData(Page<T> page) {
+        return new PagedResponseData<>(page);
+    }
 }
