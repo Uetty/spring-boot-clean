@@ -148,6 +148,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- 自动配置的job作业quartz -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
