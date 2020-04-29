@@ -1,0 +1,11 @@
+spring:
+    profiles:
+        # 从pom文件获取当前的环境develop/product/test，打包时IDEA右边Profiles根据需要勾选不同环境
+        active: '@profiles.active@'
+    resources:
+        static-locations: 'classpath:/static'
+
+server:
+    # 从pom文件获取当前的软件版本
+    edition: '@project.version@'
+    apiUrlPrefix: '/api'

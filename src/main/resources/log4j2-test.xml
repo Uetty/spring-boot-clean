@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- VM options添加 -Dlog4j.level.log4j=info 设置log4j内部打印级别为info，:- 之后为无VM options时的默认值 -->
+<configuration status="${sys:log4j.level.log4j:-info}">
+    <appenders>
+        <!-- 打印到滚动文件中 -->
+        <RollingFile name="FILE" fileName="/var/log/boot-sample/boot-sample.log"
+                     filePattern="/var/log/boot-sample/%d{yyyy-MM}/boot-sample-%d{MM-dd}-%i.log.gz">
+            <!-- 打印格式：时间 [线程名称后8位] 类名简写.方法名:行号 [日志级别] - 日志内容 -->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%.8t] %C{1.}.%M:%L [%p] - %m%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+                <SizeBasedTriggeringPolicy size="30MB" />
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="/var/log/boot-sample" maxDepth="3">
+                    <IfFileName glob="*/boot-sample-*.log" />
+                    <IfLastModify age="30d" />
+                    <IfAccumulatedFileSize exceeds="10 GB" />
+                    <IfAccumulatedFileCount exceeds="1000" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <!-- VM options添加 -Dlog4j.level.root=debug 设置默认打印级别为debug，:- 之后为无VM options时的默认值 -->
+        <root level="${sys:log4j.level.root:-info}">
+            <appender-ref ref="FILE" />
+        </root>
+    </loggers>
+</configuration>
