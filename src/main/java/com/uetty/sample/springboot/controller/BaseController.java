@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
+@SuppressWarnings("SameParameterValue")
 public class BaseController {
 
     @Autowired
@@ -38,7 +39,7 @@ public class BaseController {
      * 错误情况下的响应结果，指定错误代码
      */
     protected <T> BaseResponse<T> errorResult(ResponseCode responseCode) {
-        return baseResponse(responseCode, "failed");
+        return baseResponse(responseCode, responseCode.getDefaultMessage(getLocale()));
     }
     /**
      * 错误情况下的响应结果，指定错误代码，并替换默认错误信息
@@ -47,7 +48,7 @@ public class BaseController {
         return baseResponse(responseCode, message);
     }
 
-    private  <T> BaseResponse<T> baseResponse(ResponseCode responseCode, String message) {
+    protected <T> BaseResponse<T> baseResponse(ResponseCode responseCode, String message) {
         BaseResponse<T> baseResponse = new BaseResponse<>();
         baseResponse.setStatus(responseCode.getCode());
         baseResponse.setMessage(message);
@@ -55,7 +56,7 @@ public class BaseController {
     }
 
     protected <T> BaseResponse<T> successResult() {
-        return baseResponse(ResponseCode.SUCCESS, "success");
+        return baseResponse(ResponseCode.SUCCESS, ResponseCode.SUCCESS.getDefaultMessage(getLocale()));
     }
 
     /**
@@ -64,7 +65,7 @@ public class BaseController {
     protected <T> BaseResponse<T> successResult(T resultData) {
         BaseResponse<T> baseDataResponse = new BaseResponse<>();
         baseDataResponse.setStatus(ResponseCode.SUCCESS.getCode());
-        baseDataResponse.setMessage("success");
+        baseDataResponse.setMessage(ResponseCode.SUCCESS.getDefaultMessage(getLocale()));
         baseDataResponse.setData(resultData);
         return baseDataResponse;
     }

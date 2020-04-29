@@ -4,6 +4,9 @@ spring:
         active: '@profiles.active@'
     resources:
         static-locations: 'classpath:/static'
+    messages:
+        # 国际化文件
+        basename: i18n/messages
 
 server:
     # 从pom文件获取当前的软件版本

@@ -43,4 +43,31 @@ public enum ResponseCode implements CodeableEnum {
         return this.code;
     }
 
+    private static final String I18N_MESSAGE_KEY = "reponse.message.code_";
+    /**
+     * 默认中国区域的消息返回值
+     */
+    @SuppressWarnings("unused")
+    public String getDefaultMessage() {
+        return getDefaultMessage(Locale.CHINA);
+    }
+
+    /**
+     * 国际化消息返回值
+     */
+    public String getDefaultMessage(Locale locale) {
+        if (ApplicationVariable.APPLICATION_CONTEXT == null) {
+            return null;
+        }
+        try {
+            if (messageSource == null) {
+                messageSource = ApplicationVariable.APPLICATION_CONTEXT.getBean(MessageSource.class);
+            }
+            if (locale == null) {
+                locale = Locale.CHINA;
+            }
+            return messageSource.getMessage(I18N_MESSAGE_KEY + code, null, locale);
+        } catch (Exception ignore) {}
+        return null;
+    }
 }
