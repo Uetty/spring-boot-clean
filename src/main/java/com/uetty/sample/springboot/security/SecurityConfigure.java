@@ -1,15 +1,14 @@
 package com.uetty.sample.springboot.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @EnableWebSecurity
@@ -56,5 +55,18 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl(logoutPath)
                 ;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 注意这里跟上面方法名相同，参数不同，不要混了
+        // 这个会将密码加密后再存在内存中
+        UserDetails build = User.withDefaultPasswordEncoder()
+                .username("vince")
+                .password("123456")
+                .roles("USER")
+                .build();
+        auth.inMemoryAuthentication()
+                .withUser("vince").roles("USER").password(build.getPassword());
     }
 }
