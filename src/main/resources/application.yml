@@ -7,6 +7,8 @@ spring:
     messages:
         # 国际化文件
         basename: i18n/messages
+    session:
+        store-type: redis
 
 mybatis:
     # mybatis配置文件
