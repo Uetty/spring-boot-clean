@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
-@RequestMapping("/${server.apiUrlPrefix}/")
+@RequestMapping("${server.apiUrlPrefix}/")
 public class HelloController extends BaseController {
 
     @Autowired
@@ -35,4 +36,5 @@ public class HelloController extends BaseController {
         PagedResponseData<User> pagedData = getPagedData(page);
         return successResult(pagedData);
     }
+
 }

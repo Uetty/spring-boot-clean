@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
 @SuppressWarnings("SameParameterValue")
@@ -25,6 +26,12 @@ public class BaseController {
         return httpServletRequest.getLocale();
     }
 
+    /**
+     * 获取session
+     */
+    protected HttpSession getSession() {
+        return httpServletRequest.getSession();
+    }
     /**
      * 错误情况下的响应结果，使用默认的错误code
      */

@@ -8,6 +8,7 @@ spring:
         # 国际化文件
         basename: i18n/messages
 
+
 mybatis:
     # mybatis配置文件
     config-location: classpath:mybatis-config.xml
