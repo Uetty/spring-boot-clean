@@ -1,3 +1,4 @@
+# mmp，log4j2启动时自动加载了一次log4j2-test.xml，环境不要命名为test为妙
 server:
   port: 9090
 
@@ -7,6 +8,3 @@ spring:
     url: 'jdbc:mysql://localhost:3306/springboot_sample?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&autoReconnect=true'
     username: root
     password: 123456
-
-logging:
-  config: 'classpath:log4j2-develop.xml'

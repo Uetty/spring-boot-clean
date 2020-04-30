@@ -178,9 +178,10 @@
             </build>
         </profile>
         <profile>
-            <id>test</id>
+            <id>testing</id>
             <properties>
-                <profiles.active>test</profiles.active>
+                <!-- mmp，log4j2启动时自动加载了一次log4j2-test.xml，环境不要命名为test为妙 -->
+                <profiles.active>testing</profiles.active>
             </properties>
             <build>
                 <plugins>

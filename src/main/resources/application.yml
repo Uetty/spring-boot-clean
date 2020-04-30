@@ -25,3 +25,6 @@ server:
     # 从pom文件获取当前的软件版本
     edition: '@project.version@'
     apiUrlPrefix: '/api'
+
+logging:
+    config: 'classpath:log4j2-@profiles.active@.xml'

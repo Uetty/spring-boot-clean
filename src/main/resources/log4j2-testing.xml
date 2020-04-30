@@ -16,7 +16,7 @@
                 <Delete basePath="/var/log/boot-sample" maxDepth="3">
                     <IfFileName glob="*/boot-sample-*.log" />
                     <IfLastModify age="30d" />
-                    <IfAccumulatedFileSize exceeds="10 GB" />
+                    <IfAccumulatedFileSize exceeds="1 GB" />
                     <IfAccumulatedFileCount exceeds="1000" />
                 </Delete>
             </DefaultRolloverStrategy>
