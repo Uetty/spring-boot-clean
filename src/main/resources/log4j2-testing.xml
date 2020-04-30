@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- mmp，log4j2启动时自动加载了一次log4j2-test.xml，环境不要命名为test为妙 -->
 <!-- VM options添加 -Dlog4j.level.log4j=info 设置log4j内部打印级别为info，:- 之后为无VM options时的默认值 -->
 <configuration status="${sys:log4j.level.log4j:-info}">
     <appenders>

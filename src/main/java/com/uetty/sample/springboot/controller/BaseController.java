@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
 @SuppressWarnings("SameParameterValue")
@@ -23,6 +24,12 @@ public class BaseController {
      */
     protected Locale getLocale() {
         return httpServletRequest.getLocale();
+    }
+    /**
+     * 获取Session
+     */
+    protected HttpSession getSession() {
+        return httpServletRequest.getSession();
     }
 
     /**

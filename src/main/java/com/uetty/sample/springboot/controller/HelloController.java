@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @SuppressWarnings({"rawtypes", "unused"})
 @RestController
 @RequestMapping("/${server.apiUrlPrefix}/")
@@ -64,5 +66,19 @@ public class HelloController extends BaseController {
     public BaseResponse<Object> redisGetUser() {
         Object object = redisTestService.getObject("user");
         return successResult(object);
+    }
+
+    @RequestMapping(value = "sessionSet")
+    public BaseResponse sessionSet(String key, String value) {
+        HttpSession httpSession = getSession();
+        httpSession.setAttribute(key, value);
+        return successResult();
+    }
+
+    @RequestMapping(value = "sessionGet")
+    public BaseResponse<Object> sessionGet(String key) {
+        HttpSession httpSession = getSession();
+        Object attribute = httpSession.getAttribute(key);
+        return successResult(attribute);
     }
 }

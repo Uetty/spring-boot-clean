@@ -152,6 +152,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.session</groupId>-->
+<!--            <artifactId>spring-session-data-redis</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <profiles>
@@ -182,9 +187,10 @@
             </build>
         </profile>
         <profile>
-            <id>test</id>
+            <id>testing</id>
             <properties>
-                <profiles.active>test</profiles.active>
+                <!-- mmp，log4j2启动时自动加载了一次log4j2-test.xml，环境不要命名为test为妙 -->
+                <profiles.active>testing</profiles.active>
             </properties>
             <build>
                 <plugins>
@@ -271,20 +277,6 @@
                     <target>8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

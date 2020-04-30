@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- VM options添加 -Dlog4j.level.log4j=info 设置log4j内部打印级别为info，:- 之后为无VM options时的默认值 -->
-<configuration status="${sys:log4j.level.log4j:-info}">
+<configuration status="${sys:log4j.level.log4j:-debug}">
     <appenders>
         <Console name="CONSOLE" target="SYSTEM_OUT">
             <!-- 打印格式：时间 [线程名称后8位] 类名简写.方法名:行号 [日志级别] - 日志内容 -->
