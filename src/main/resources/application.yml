@@ -7,7 +7,24 @@ spring:
     messages:
         # 国际化文件
         basename: i18n/messages
-
+    security:
+        oauth2:
+            client:
+                registration:
+                    github:
+                        client-id: 'your client id'
+                        client-secret: 'your client secret'
+                        client-authentication-method: basic
+                        authorization-grant-type: authorization_code
+                        redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+                        scope: 'repo public_repo user'
+                        client-name: 'github-client'
+                provider:
+                    github:
+                        user-info-uri: 'https://api.github.com/user'
+                        token-uri: 'https://github.com/login/oauth/access_token'
+                        authorization-uri: 'https://github.com/login/oauth/authorize'
+                        user-name-attribute: "email"
 
 mybatis:
     # mybatis配置文件
