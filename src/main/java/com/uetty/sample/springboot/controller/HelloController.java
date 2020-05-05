@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.uetty.sample.springboot.constant.BaseResponse;
 import com.uetty.sample.springboot.constant.PagedResponseData;
 import com.uetty.sample.springboot.entity.User;
+import com.uetty.sample.springboot.service.LoginService;
 import com.uetty.sample.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,9 @@ public class HelloController extends BaseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    LoginService loginService;
 
     @RequestMapping(value = "hello")
     public BaseResponse<String> hello() {
@@ -35,6 +39,18 @@ public class HelloController extends BaseController {
         Page<User> page = userService.getPageUsers();
         PagedResponseData<User> pagedData = getPagedData(page);
         return successResult(pagedData);
+    }
+
+    @RequestMapping(value = "login")
+    public BaseResponse<User> login(String username, String password) {
+
+        return successResult(loginService.login(username, password));
+    }
+
+    @RequestMapping(value = "logout")
+    public BaseResponse<User> login() {
+        loginService.logout();
+        return successResult();
     }
 
 }
