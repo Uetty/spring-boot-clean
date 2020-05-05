@@ -6,6 +6,8 @@ import com.uetty.sample.springboot.constant.PagedResponseData;
 import com.uetty.sample.springboot.entity.User;
 import com.uetty.sample.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +18,9 @@ public class HelloController extends BaseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CsrfTokenRepository csrfTokenRepository;
 
     @RequestMapping(value = "hello")
     public BaseResponse<String> hello() {
@@ -37,4 +42,14 @@ public class HelloController extends BaseController {
         return successResult(pagedData);
     }
 
+    @RequestMapping(value = "generateCsrf")
+    public BaseResponse<CsrfToken> generateCsrf() {
+        // 加载已经保存的token
+//        CsrfToken csrfToken = csrfTokenRepository.loadToken(httpServletRequest);
+        // 生成token
+        CsrfToken csrfToken = csrfTokenRepository.generateToken(httpServletRequest);
+        // 保存生成的token
+        csrfTokenRepository.saveToken(csrfToken, httpServletRequest, httpServletResponse);
+        return successResult(csrfToken);
+    }
 }

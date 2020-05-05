@@ -9,11 +9,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 
 @EnableWebSecurity
@@ -29,6 +29,14 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
         public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
         }
+
+        /**
+         * 声明CsrfTokenRepository的Bean
+         */
+        @Bean
+        public CsrfTokenRepository csrfTokenRepository() {
+            return new HttpSessionCsrfTokenRepository();
+        }
     }
 
     @Value("${server.apiUrlPrefix}/login")
@@ -37,15 +45,22 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     private String apiPath;
     @Value("${server.apiUrlPrefix}/logout")
     private String logoutPath;
+    @Value("${server.apiUrlPrefix}/generateCsrf")
+    private String generateCsrfPath;
 
     @Autowired
     UserDetailsService userDetailsService;
+    @Autowired
+    private CsrfTokenRepository csrfTokenRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        // 声明使用的csrfTokenRepository
+        http.csrf().csrfTokenRepository(csrfTokenRepository);
         http
                 .authorizeRequests()
+                // 允许未登录下访问获取csrf token的接口
+                .antMatchers(generateCsrfPath).permitAll()
                 // api接口都需要登录
                 .antMatchers(apiPath).authenticated()
                 // 其余路径（页面）不需要认证
