@@ -3,10 +3,16 @@ package com.uetty.sample.springboot.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uetty.sample.springboot.enums.UserStatusEnum;
 import com.uetty.sample.springboot.enums.UserSysRoleEnum;
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
-public class User {
+public class User implements UserDetails, CredentialsContainer {
 
     private String id;
     private String username;
@@ -21,6 +27,8 @@ public class User {
     private Date createTime;
     private Date updateTime;
 
+    List<Role> roleList = new ArrayList<>();
+
     public String getId () {
         return this.id;
     }
@@ -30,6 +38,27 @@ public class User {
     public String getUsername () {
         return this.username;
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername (String username) {
         this.username = username;
     }
@@ -39,6 +68,12 @@ public class User {
     public void setDisplayName (String displayName) {
         this.displayName = displayName;
     }
+
+    @Override
+    public Collection<Role> getAuthorities() {
+        return roleList;
+    }
+
     @JsonIgnore
     public String getPassword () {
         return this.password;
@@ -93,5 +128,10 @@ public class User {
     }
     public void setUpdateTime (Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 }

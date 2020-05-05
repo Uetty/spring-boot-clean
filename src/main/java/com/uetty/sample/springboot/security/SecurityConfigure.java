@@ -4,16 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @EnableWebSecurity
@@ -22,13 +16,6 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Configurable
     static class SecurityBeanConfigure {
-        /**
-         * 这里为security指定一个加密方式（这个加密目的仅是内存安全，数据库里最好还是要单独进行md5加密）
-         */
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
     }
 
     @Value("${server.apiUrlPrefix}/login")
@@ -39,7 +26,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     private String logoutPath;
 
     @Autowired
-    UserDetailsService userDetailsService;
+    AuthenticationProviderImpl authenticationProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -73,7 +60,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 设置自定义获取用户信息的业务类
-        auth.userDetailsService(userDetailsService);
+        // 设置自定义AuthenticationProvider
+        auth.authenticationProvider(authenticationProvider);
     }
 }
