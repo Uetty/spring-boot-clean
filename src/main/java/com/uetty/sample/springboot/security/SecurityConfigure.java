@@ -28,6 +28,11 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthenticationProviderImpl authenticationProvider;
 
+    @Autowired
+    SecurityExceptionHandler exceptionHandler;
+    @Autowired
+    AuthenticationHandler authenticationHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -38,6 +43,9 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 // 其余路径（页面）不需要认证
                 .anyRequest().permitAll()
 
+                .and()
+                .logout()
+                .logoutUrl(logoutPath)
                 .and()
                 .formLogin()
                 // 登录页面地址（也即判断请求未登录验证时，重定向到的页面）
@@ -52,9 +60,15 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 // 登录接口传递密码的参数名
                 .passwordParameter("password")
+
+                // 登录成功和登录失败的处理
+                .failureHandler(authenticationHandler)
+                .successHandler(authenticationHandler)
+                // 无权限的处理
                 .and()
-                .logout()
-                .logoutUrl(logoutPath)
+                .exceptionHandling()
+                .accessDeniedHandler(exceptionHandler)
+                .authenticationEntryPoint(exceptionHandler);
                 ;
     }
 
