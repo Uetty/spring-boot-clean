@@ -5,12 +5,14 @@ import com.uetty.sample.springboot.constant.BaseResponse;
 import com.uetty.sample.springboot.constant.PagedResponseData;
 import com.uetty.sample.springboot.entity.User;
 import com.uetty.sample.springboot.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/${server.apiUrlPrefix}/")
+@Slf4j
 public class HelloController extends BaseController {
 
     @Autowired
@@ -25,7 +27,8 @@ public class HelloController extends BaseController {
     public BaseResponse<User> getUser(String username) {
 
         User user = userService.getUserByUsername(username);
-
+        String id = user.getId();
+        log.info("test lombok generate getter and logger, getId() -> {}", id);
         return successResult(user);
     }
 
