@@ -6,11 +6,13 @@ import com.uetty.sample.springboot.constant.PagedResponseData;
 import com.uetty.sample.springboot.entity.User;
 import com.uetty.sample.springboot.service.RedisTestService;
 import com.uetty.sample.springboot.service.UserService;
+import com.uetty.sample.springboot.util.RedisLockUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.concurrent.locks.LockSupport;
 
 @SuppressWarnings({"rawtypes", "unused"})
 @RestController
@@ -22,6 +24,9 @@ public class HelloController extends BaseController {
 
     @Autowired
     RedisTestService redisTestService;
+
+    @Autowired
+    RedisLockUtil redisLockUtil;
 
     @RequestMapping(value = "hello")
     public BaseResponse<String> hello() {
@@ -81,4 +86,21 @@ public class HelloController extends BaseController {
         Object attribute = httpSession.getAttribute(key);
         return successResult(attribute);
     }
+
+    @RequestMapping(value = "lock")
+    public BaseResponse<Object> lock(String key) {
+        String lockStatus = "failed";
+        try (RedisLockUtil.Lock lock = redisLockUtil.lock("boot")) {
+            long nano = (long) 1e9 * 10;
+            LockSupport.parkNanos(nano);
+            if (lock != null) {
+                lockStatus = "success";
+                System.out.println("success lock");
+            } else {
+                System.out.println("lock failed");
+            }
+        }
+        return successResult(lockStatus);
+    }
+
 }
