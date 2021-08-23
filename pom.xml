@@ -16,7 +16,7 @@
         <activemq.spring-boot.version>2.1.8.RELEASE</activemq.spring-boot.version>
         <mybatis.spring-boot.version>2.1.0</mybatis.spring-boot.version>
         <mybatis.version>3.5.4</mybatis.version>
-        <jsoup.version>1.13.1</jsoup.version>
+        <jsoup.version>1.14.2</jsoup.version>
         <pagehelper.version>1.2.12</pagehelper.version>
     </properties>
 
